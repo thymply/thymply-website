@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thymply – Smarte Tools für Streamer & Praxen</title>
+  <meta name="description" content="Thymply entwickelt smarte Software-Lösungen – von Streaming-Bots bis zu KI-Assistenten für Arztpraxen." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cyan: #06b6d4;
+      --cyan-dim: rgba(6, 182, 212, 0.15);
+      --cyan-border: rgba(6, 182, 212, 0.3);
+      --bg: #0a0c10;
+      --bg-card: #111318;
+      --bg-card-hover: #161921;
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(255,255,255,0.14);
+      --text: #f0f2f5;
+      --text-muted: #6b7280;
+      --text-dim: #9ca3af;
+      --coming: #f59e0b;
+      --coming-dim: rgba(245, 158, 11, 0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(10, 12, 16, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--cyan);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--cyan-dim);
+      border: 1px solid var(--cyan-border);
+      border-radius: 999px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.78rem;
+      color: var(--cyan);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 2rem;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 1.0;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #ffffff 40%, #9ca3af);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 520px;
+      margin: 0 auto 3rem;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--cyan);
+      color: #0a0c10;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .hero-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ── PRODUCTS ── */
+    .section {
+      padding: 5rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      color: var(--cyan);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      letter-spacing: -0.03em;
+      margin-bottom: 2.5rem;
+      color: var(--text);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .product-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+      color: inherit;
+    }
+
+    .product-card:not(.coming-soon):hover {
+      border-color: var(--cyan-border);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+
+    .product-card.coming-soon {
+      opacity: 0.7;
+      cursor: default;
+    }
+
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .product-card:not(.coming-soon):hover::before { opacity: 1; }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      background: var(--cyan-dim);
+    }
+
+    .card-icon.amber { background: var(--coming-dim); }
+
+    .card-icon svg { width: 24px; height: 24px; }
+
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-badge.live { background: rgba(16,185,129,0.12); color: #10b981; }
+    .card-badge.soon { background: var(--coming-dim); color: var(--coming); }
+
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-link {
+      font-size: 0.85rem;
+      color: var(--cyan);
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .card-link-muted {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0 2rem;
+    }
+
+    /* ── LEGAL SECTIONS ── */
+    .legal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 3rem;
+    }
+
+    .legal-block h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .legal-block p, .legal-block address {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      line-height: 1.8;
+      font-style: normal;
+      margin-bottom: 0.75rem;
+    }
+
+    .legal-block a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+
+    .legal-block a:hover { text-decoration: underline; }
+
+    .legal-block h4 {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin: 1.25rem 0 0.4rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: auto;
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    footer span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    footer a:hover { color: var(--text-dim); }
+
+    .footer-links { display: flex; gap: 1.5rem; }
+
+    @media (max-width: 600px) {
+      nav { padding: 0.9rem 1.25rem; }
+      .nav-links { gap: 1.2rem; }
+      .hero { padding: 5rem 1.25rem 3rem; }
+      .section { padding: 3.5rem 1.25rem; }
+      .divider { margin: 0 1.25rem; }
+      footer { padding: 1.25rem; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">Thymply</a>
+    <ul class="nav-links">
+      <li><a href="#produkte">Produkte</a></li>
+      <li><a href="#impressum">Impressum</a></li>
+      <li><a href="#datenschutz">Datenschutz</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">Smarte Software aus Deutschland</div>
+    <h1>Thymply</h1>
+    <p class="hero-sub">
+      Wir bauen intelligente Tools – für Streamer, die ihren Chat automatisieren wollen,
+      und Praxen, die Zeit sparen möchten.
+    </p>
+    <a class="hero-cta" href="https://botly.thymply.de">
+      Botly entdecken
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </a>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- PRODUCTS -->
+  <section class="section" id="produkte">
+    <div class="section-label">Unsere Produkte</div>
+    <div class="section-title">Was wir bauen</div>
+
+    <div class="products-grid">
+      <!-- Botly -->
+      <a class="product-card" href="https://botly.thymply.de">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            <circle cx="12" cy="2" r="1" fill="#06b6d4" stroke="none"/>
+            <line x1="12" y1="3" x2="12" y2="7"/>
+          </svg>
+        </div>
+        <span class="card-badge live">
+          <span style="width:5px;height:5px;border-radius:50%;background:#10b981;display:inline-block;"></span>
+          Live
+        </span>
+        <div class="card-title">Botly</div>
+        <div class="card-desc">
+          Der smarte Streaming-Bot für Discord, Twitch und YouTube.
+          Commands, AutoMod, Giveaways, OBS-Integration und mehr –
+          alles in einem Dashboard.
+        </div>
+        <span class="card-link">
+          botly.thymply.de
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </span>
+      </a>
+
+      <!-- KI-Agent -->
+      <div class="product-card coming-soon">
+        <div class="card-icon amber">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a10 10 0 1 0 10 10"/>
+            <path d="M12 8v4l3 3"/>
+            <path d="M18 2v4h4"/>
+          </svg>
+        </div>
+        <span class="card-badge soon">Coming Soon</span>
+        <div class="card-title">KI-Assistent</div>
+        <div class="card-desc">
+          Lokaler KI-Assistent für Arztpraxen – vollständig DSGVO-konform,
+          ohne Cloud. Transkribiert Anrufbeantworter, erstellt Rezeptentwürfe
+          und entlastet MFAs im Alltag.
+        </div>
+        <span class="card-link-muted">Demnächst verfügbar</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- IMPRESSUM & DATENSCHUTZ -->
+  <section class="section" id="impressum">
+    <div class="section-label">Rechtliches</div>
+    <div class="section-title">Impressum & Datenschutz</div>
+
+    <div class="legal-grid">
+
+      <!-- IMPRESSUM -->
+      <div class="legal-block">
+        <h3>Impressum</h3>
+        <p><strong style="color:var(--text);">Angaben gemäß § 5 TMG</strong></p>
+        <address>
+          Thymply<br />
+          Inh. Tim-Oliver Miehle<br />
+          c/o Schubertstraße 25<br />
+          72800 Eningen unter Achalm<br />
+          Deutschland
+        </address>
+        <h4>Kontakt</h4>
+        <p>
+          E-Mail: <a href="mailto:thymply@outlook.de">thymply@outlook.de</a>
+        </p>
+        <h4>Hinweis</h4>
+        <p>
+          Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:<br />
+          Tim-Oliver Miehle, Anschrift wie oben.
+        </p>
+        <h4>Haftungsausschluss</h4>
+        <p>
+          Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt.
+          Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann
+          keine Gewähr übernommen werden. Als Diensteanbieter sind wir gemäß
+          § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den
+          allgemeinen Gesetzen verantwortlich.
+        </p>
+      </div>
+
+      <!-- DATENSCHUTZ -->
+      <div class="legal-block" id="datenschutz">
+        <h3>Datenschutzerklärung</h3>
+
+        <h4>Verantwortlicher</h4>
+        <p>
+          Tim-Oliver Miehle (Thymply)<br />
+          c/o Schubertstraße 25, 72800 Eningen unter Achalm<br />
+          <a href="mailto:thymply@outlook.de">thymply@outlook.de</a>
+        </p>
+
+        <h4>Welche Daten wir erheben</h4>
+        <p>
+          Beim Besuch dieser Website werden keine personenbezogenen Daten
+          erhoben. Bei der Nutzung unserer Produkte (z. B. Botly) werden
+          OAuth-Tokens, Nutzernamen und Plattform-IDs (Discord, Twitch,
+          YouTube) sowie Bot-Konfigurationen gespeichert.
+          Zahlungsdaten werden ausschließlich von unserem Zahlungsanbieter
+          <a href="https://stripe.com/de/privacy" target="_blank" rel="noopener">Stripe, Inc.</a>
+          verarbeitet – wir speichern keine Kreditkartendaten.
+        </p>
+
+        <h4>Deine Rechte (DSGVO)</h4>
+        <p>
+          Du hast das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16),
+          Löschung (Art. 17) und Datenübertragbarkeit (Art. 20) deiner
+          gespeicherten Daten. Eine vollständige Datenauskunft sowie
+          Kontolöschung ist direkt über die jeweilige Produktoberfläche
+          möglich.
+        </p>
+
+        <h4>Hosting & Auftragsverarbeitung</h4>
+        <p>
+          Diese Website wird über Cloudflare Pages gehostet (Cloudflare, Inc.,
+          101 Townsend St., San Francisco, CA 94107, USA).
+          Cloudflare kann beim Abruf dieser Seite technische Zugriffsdaten
+          (IP-Adresse, Browsertyp) verarbeiten. Weitere Informationen:
+          <a href="https://www.cloudflare.com/de-de/privacypolicy/" target="_blank" rel="noopener">Cloudflare Datenschutz</a>.
+        </p>
+
+        <h4>Kontakt bei Datenschutzfragen</h4>
+        <p>
+          <a href="mailto:thymply@outlook.de">thymply@outlook.de</a>
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2025 Thymply · Tim-Oliver Miehle</span>
+    <div class="footer-links">
+      <a href="#impressum">Impressum</a>
+      <a href="#datenschutz">Datenschutz</a>
+      <a href="mailto:thymply@outlook.de">Kontakt</a>
+    </div>
+  </footer>
+
+</body>
+</html>
